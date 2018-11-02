@@ -26,7 +26,7 @@ func main() {
 
 	proxy := goproxy.NewProxyHttpServer()
 	// proxy.Verbose = true /* for debugging */
-	proxy.OnRequest().DoFunc(func(r *http.Request, ctx *goproxy.ProxyCtx) (*http.Request, *http.Response) {
+	proxy.OnRequest(isPreFlightRequest()).DoFunc(func(r *http.Request, ctx *goproxy.ProxyCtx) (*http.Request, *http.Response) {
 		preFlightResp := goproxy.NewResponse(r, r.Header.Get("Content-Type"), 200, "")
 		preFlightResp.Header.Set("Access-Control-Allow-Origin", r.Header.Get("Origin"))
 		preFlightResp.Header.Set("Access-Control-Allow-Headers", "content-type")
