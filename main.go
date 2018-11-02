@@ -33,6 +33,12 @@ func main() {
 		preFlightResp.Header.Set("Access-Control-Allow-Methods", "GET, POST")
 		return r, preFlightResp
 	})
+	proxy.OnResponse().DoFunc(func(r *http.Response, ctx *goproxy.ProxyCtx) *http.Response {
+		r.Header.Set("Access-Control-Allow-Origin", "*")
+		r.Header.Set("Access-Control-Allow-Headers", "content-type")
+		r.Header.Set("Access-Control-Allow-Methods", "GET, POST")
+		return r
+	})
 
 	log.Fatal(http.ListenAndServe(os.Args[1], proxy))
 }
